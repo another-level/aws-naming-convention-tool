@@ -227,6 +227,7 @@ function makeResourceArea( resourceInfo ) {
             textBox.addEventListener('keyup', e => {
                 printValues(resourceInfo.abbr);
             })
+            inputs.appendChild(textBox);
         }
         //for common
         let delimiterSpan = document.createElement('span');
