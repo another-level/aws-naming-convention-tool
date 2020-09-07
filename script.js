@@ -38,9 +38,9 @@ const networkOptions = [
     ['External','EXT']
 ]
 
-const EnvironmentOptions = [
+const environmentOptions = [
     ['Dev','DEV'],
-    ['QA','QA',]
+    ['QA','QA'],
     ['Prod','PRD']
 ]
 
@@ -57,6 +57,11 @@ const serialNumberOptions = [
     ['10','10']
 ]
 
+const loadBalancerTypeOptions = [
+    ['Application', 'ALB'],
+    ['Network', 'NLB']
+]
+
 //resource info containers
 const resourceArray = [
     {
@@ -68,111 +73,112 @@ const resourceArray = [
     {
         name : 'Subnet',
         abbr : 'SBN',
-        example : 'SBN-UE1-ECOM-PUB-01',
+        example : 'SBN-UE1-PRJ1-PUB-01',
         elements : ['SBN', regionOptions, accountTypeOptions, subnetOptions, serialNumberOptions]
     },
     {
         name : 'RouteTable',
         abbr : 'RT',
-        example : '',
-        elements : ['',]
+        example : 'RT-PRJ1-INTL-01',
+        elements : ['RT', accountTypeOptions, networkOptions, serialNumberOptions]
     },
     {
-        name : '',
-        abbr : '',
-        example : '',
-        elements : ['',]
+        name : 'Internet Gateway',
+        abbr : 'IGW',
+        example : 'IGW-PRJ1',
+        elements : ['IGW', accountTypeOptions]
     },
     {
-        name : '',
-        abbr : '',
-        example : '',
-        elements : ['',]
+        name : 'Network ACL',
+        abbr : 'NACL',
+        example : 'NACL-PRJ1-PUB-01',
+        elements : ['NACL', accountTypeOptions, networkOptions, serialNumberOptions]
     },
     {
-        name : '',
-        abbr : '',
-        example : '',
-        elements : ['',]
+        name : 'Security Group',
+        abbr : 'SG',
+        example : 'SG-DEV-PRJ1-AUTH',
+        elements : ['SG', environmentOptions, systemOptions, []]
     },
     {
-        name : '',
-        abbr : '',
-        example : '',
-        elements : ['',]
+        name : 'Load Balancer',
+        abbr : 'LB',
+        example : 'ALB-DEV-INTL-PRJ1-AUTH',
+        elements : [loadBalancerTypeOptions, environmentOptions, networkOptions, systemOptions, []]
     },
     {
-        name : '',
-        abbr : '',
-        example : '',
-        elements : ['',]
+        name : 'Target Group',
+        abbr : 'TG',
+        example : 'TG-DEV-WEB-DC-AUTH-80',
+        elements : ['TG', environmentOptions, [], systemOptions, [], []]
     },
     {
-        name : '',
-        abbr : '',
-        example : '',
-        elements : ['',]
+        name : 'EC2',
+        abbr : 'EC2',
+        example : 'EC2-DEV-DEV-PRJ1-DTC-PUB01',
+        elements : ['EC2', environmentOptions, accountTypeOptions, systemOptions, [], serialNumberOptions]
     },
     {
-        name : '',
-        abbr : '',
-        example : '',
-        elements : ['',]
+        name : 'EBS',
+        abbr : 'EBS',
+        example : 'EBS-DEV-[Name Of EC2]-1',
+        elements : ['EBS', environmentOptions, []]
     },
     {
-        name : '',
-        abbr : '',
-        example : '',
-        elements : ['',]
+        name : 'Elastic IP',
+        abbr : 'EIP',
+        example : 'EIP-DEV-[Name of EC2]-1',
+        elements : ['EIP', environmentOptions, []]
     },
     {
-        name : '',
-        abbr : '',
-        example : '',
-        elements : ['',]
+        name : 'IAM User',
+        abbr : 'USER',
+        example : 'PRJ1-QDE-S3-FTP',
+        desc : '[system]-[env]-[actor]-user description with PascalCase]',
+        elements : [systemOptions, environmentOptions, [], ['static']]
     },
     {
-        name : '',
-        abbr : '',
-        example : '',
-        elements : ['',]
+        name : 'IAM Role',
+        abbr : 'ROL',
+        example : 'ROL-PRJ1-QDE-EC2-Management',
+        elements : ['ROL', systemOptions, environmentOptions, [], ['static']]
     },
     {
-        name : '',
-        abbr : '',
-        example : '',
-        elements : ['',]
+        name : 'IAM Policy',
+        abbr : 'POL',
+        example : 'POL-PRJ1-DEV-S3-ReadOnly',
+        elements : ['POL', systemOptions, environmentOptions, ['static']]
     },
     {
-        name : '',
-        abbr : '',
-        example : '',
-        elements : ['',]
+        name : 'WAF',
+        abbr : 'WAF',
+        example : 'WAF-PRJ1',
+        elements : ['WAF', accountTypeOptions]
     },
     {
-        name : '',
-        abbr : '',
-        example : '',
-        elements : ['',]
+        name : 'RDS',
+        abbr : 'RDS',
+        example : 'RDS-DEV-DBNAME',
+        elements : ['RDS', environmentOptions,[]]
     },
     {
-        name : '',
-        abbr : '',
-        example : '',
-        elements : ['',]
+        name : 'ElastiCache',
+        abbr : 'ELC',
+        example : 'ELC-DEV-RED-UE1-PRJ1-THA-1',
+        elements : ['ELC', environmentOptions,[], regionOptions, accountTypeOptions, systemOptions, serialNumberOptions]
     },
     {
-        name : '',
-        abbr : '',
-        example : '',
-        elements : ['',]
+        name : 'Amazon MQ',
+        abbr : 'MQ',
+        example : 'MQ-DEV-UE1-PRJ1-THA-1',
+        elements : ['MQ', environmentOptions, regionOptions, accountTypeOptions, systemOptions, serialNumberOptions]
     },
     {
-        name : '',
-        abbr : '',
-        example : '',
-        elements : ['',]
-    },
+        name : 'S3',
+        abbr : 'S3',
+        example : 'S3-UE1-PRJ1-THAT-1',
+        elements : ['S3', regionOptions, environmentOptions, systemOptions]
+    }
 
 ]
 
@@ -253,7 +259,7 @@ function makeResourceArea( resourceInfo ) {
     printValues(resourceInfo.abbr);
 }
 
-function makeSelectBox(option, id) {
+function makeSelectBox(options, id) {
     let selectBox = document.createElement('select');
     options.map( item => {
         let objOpt = document.createElement('option');
@@ -264,11 +270,12 @@ function makeSelectBox(option, id) {
     selectBox.addEventListener('change', e => {
         printValues(id);
     });
+    return selectBox;
 }
 
 function printValues(id, switchCase) {
     let resultText = document.querySelector(`#${id} .resultText`);
-    let item = document.querySelectorAll(`#${id} .items`);
+    let items = document.querySelectorAll(`#${id} .items`);
     
     let sentence = '';
     let static = '';
@@ -277,7 +284,7 @@ function printValues(id, switchCase) {
         if( item.classList.contains('static') ) {
             static = item.value;
         } else if ( item.tagName == 'SELECT') {
-            sentence += item.selectOptions[0].value;
+            sentence += item.selectedOptions[0].value;
         } else if ( item.tagName == 'SPAN') {
             sentence += item.textContent;
         } else {
