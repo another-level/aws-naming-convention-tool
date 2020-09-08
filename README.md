@@ -4,7 +4,7 @@ To make continuously growing system,
 It is important to have naming convention and make everyone follow that.
 
 But as you might already experianced, 
-When many people working together on cloud especially from different teams, organizations, 
+When many people working together on cloud especially from different teams, organizations, and projects, 
 It is difficult to keep convention as you planed at the beginning.
 
 This tool helps your members follow naming convention with no sweat.
