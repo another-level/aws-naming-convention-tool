@@ -14,12 +14,12 @@ Host this static page on S3, and share with everyone who makes resource on aws.
 I promise your aws resources will be look much more diciplined than before.
 And it will be good foundation for your next step. IaC.
 
-# features
+## features
 1. make name with by changing values in select box and typing when more explanation needed.
 2. if you want lower case, click name result which is underlined. It will switch from upper to lower case and vice versa.
 3. copy name result by clicking 'copy' button.
 
-# how to use
+## how to use
 1. clone my repo.
 2. customize it along with your team's naming convention.
 3. use it. No internet needed.
